@@ -1,5 +1,4 @@
 # com103-midterm-exam
-# com103-midterm-exam
 # Sports Tracker (Python)
 
 ## Overview
