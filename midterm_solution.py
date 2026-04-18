@@ -2,51 +2,75 @@
 sports = ["Basketball", "Volleyball", "Badminton", "Chess", "Table Tennis"]
 categories = ["Team", "Team", "Individual", "Individual", "Individual"]
 
-# 1. Ask section and coordinator
-section = input("Enter Class Section Name: ")
-coordinator = input("Enter Sports Coordinator Name: ")
+# 1. Ask section and coordinator (required)
+section = ""
+while section == "":
+    section = input("Enter class section name: ")
+    if section == "":
+        print("NOTICE: Section name cannot be empty.")
 
-print("\n--- SPORTS LIST ---")
-# 2. Display sports list using loop
+coordinator = ""
+while coordinator == "":
+    coordinator = input("Enter sports coordinator name: ")
+    if coordinator == "":
+        print("NOTICE: Coordinator name cannot be empty.")
+
+# 2. Display sports list
+print("\nSPORTS LIST:")
 for i in range(len(sports)):
-    print(f"{i+1}. {sports[i]} ({categories[i]})")
+    print(str(i+1) + " - " + sports[i] + " (" + categories[i] + ")")
 
 # Storage for results
 games = []
 total_points = 0
 
-print("\nEnter 4 game entries:")
+# 3. Loop for 4 game entries
+count = 1
+while count <= 4:
+    print("\nGame Entry #" + str(count))
 
-count = 0
-while count < 4:
-    print(f"\nGame Slot {count+1}")
-    
-    choice = int(input("Enter sport number (1-5) or 0 to skip: "))
-    
-    if choice == 0:
+    choice = input("Choose sport (1-5) or 0 to skip: ")
+
+    # Validate input manually (no isdigit)
+    if choice not in ["0", "1", "2", "3", "4", "5"]:
+        print("NOTICE: Invalid input. Only numbers 0-5 are allowed.")
+        continue
+
+    if choice == "0":
         print("Game skipped.")
-        games.append(["Skipped", "-", "-", "-", 0])
         count += 1
         continue
-    
-    if choice >= 1 and choice <= 5:
-        sport_name = sports[choice - 1]
-        category = categories[choice - 1]
-        
-        rival = input("Enter Rival Section Name: ")
-        result = input("Enter Result (W/L): ").upper()
-        
-        if result == "W":
-            points = 3
-        else:
-            points = 0
-        
-        total_points += points
-        
-        games.append([f"Game {count+1}", sport_name, category, rival, result, points])
-        count += 1
+
+    index = int(choice) - 1
+    sport_name = sports[index]
+    category = categories[index]
+
+    # 4. Ask rival (required)
+    rival = ""
+    while rival == "":
+        rival = input("Enter rival section name: ")
+        if rival == "":
+            print("NOTICE: Rival section cannot be empty.")
+
+    # Ask result
+    result = ""
+    while result not in ["W", "L"]:
+        result = input("Enter result (W for Win / L for Lose): ")
+        if result not in ["W", "L"]:
+            print("NOTICE: Only W or L allowed.")
+
+    # 5. Points system
+    if result == "W":
+        points = 3
     else:
-        print("Invalid choice. Try again.")
+        points = 0
+
+    total_points = total_points + points
+
+    # Save game record
+    games.append([count, sport_name, category, rival, result, points])
+
+    count += 1
 
 # 7. Determine standing
 if total_points >= 9:
@@ -58,17 +82,17 @@ else:
 
 # 8. Output results
 print("\n===== GAME RESULTS =====")
-print(f"Section: {section}")
-print(f"Coordinator: {coordinator}\n")
+print("Section:", section)
+print("Coordinator:", coordinator)
 
+print("\nLogged Games:")
 for g in games:
-    print("Game:", g[0])
-    print("Sport:", g[1])
-    print("Category:", g[2])
-    print("Rival:", g[3])
-    print("Result:", g[4])
-    print("Points:", g[5])
-    print("----------------------")
+    print("Game #" + str(g[0]) +
+          " | Sport: " + g[1] +
+          " | Category: " + g[2] +
+          " | Rival: " + g[3] +
+          " | Result: " + g[4] +
+          " | Points: " + str(g[5]))
 
-print("Total Points:", total_points)
+print("\nTotal Points:", total_points)
 print("Section Standing:", standing)
