@@ -27,5 +27,3 @@ A simple Python program that records 4 sports games, calculates total points, an
 * **9+ points** → Gold Contender
 * **6–8 points** → Silver Push
 * **Below 6** → Keep Fighting!!
-
-## Run
